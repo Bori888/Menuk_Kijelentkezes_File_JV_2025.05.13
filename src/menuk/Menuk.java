@@ -4,6 +4,10 @@
  */
 package menuk;
 
+import java.awt.HeadlessException;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author IlyésBorbála(SZF_202
@@ -15,6 +19,9 @@ public class Menuk extends javax.swing.JFrame {
      */
     public Menuk() {
         initComponents();
+        
+
+        
     }
 
     /**
@@ -33,9 +40,15 @@ public class Menuk extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItem4 = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Menuk és kilépes");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
-        jMenu3.setText("Menű");
+        jMenu3.setText("Menu");
 
         jMenuItem2.setText("Mentés");
         jMenu3.add(jMenuItem2);
@@ -68,11 +81,31 @@ public class Menuk extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        System.exit(0);
+        kilepes_Megerosit();
+    
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        System.out.println("Kilépés folyamatban... ");
+         kilepes_Megerosit();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void kilepes_Megerosit() throws HeadlessException {
+        int valasz = JOptionPane.showConfirmDialog(
+                this,
+                "Biztos ki szeretnél lépni?",
+                "Megerősítés",
+                JOptionPane.YES_NO_OPTION
+        );
+        
+        if (valasz == JOptionPane.YES_OPTION) {
+            System.exit(0);//0 -->nem volt hiba
+        }
+    }
 
     /**
      * @param args the command line arguments
