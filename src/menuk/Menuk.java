@@ -39,7 +39,6 @@ public class Menuk extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
         txtfSzaknev = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -51,8 +50,6 @@ public class Menuk extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         mnuPrgKilepes = new javax.swing.JMenuItem();
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Menuk és kilépes");
@@ -69,11 +66,6 @@ public class Menuk extends javax.swing.JFrame {
         cmbValasztottSzak.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Választott szak--", "SZF", "IRU" }));
 
         chboxHirlevel.setText("Hírlevel");
-        chboxHirlevel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chboxHirlevelActionPerformed(evt);
-            }
-        });
 
         jMenu3.setText("Menu");
 
@@ -86,6 +78,11 @@ public class Menuk extends javax.swing.JFrame {
         jMenu3.add(mnuPngMentes);
 
         jMenuItem3.setText("Betölés");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem3);
         jMenu3.add(jSeparator2);
 
@@ -187,9 +184,38 @@ public class Menuk extends javax.swing.JFrame {
     }
 
 
-    private void chboxHirlevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chboxHirlevelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chboxHirlevelActionPerformed
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        fajlBetoltes();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    private void fajlBetoltes() {
+        JFileChooser jfc = new JFileChooser(System.getProperty("user.dir")); // aktuális mappa
+        int gomb = jfc.showOpenDialog(rootPane);
+
+        if (gomb == JFileChooser.APPROVE_OPTION) {
+            File kivalasztottFile = jfc.getSelectedFile();
+            Path path = kivalasztottFile.toPath();
+
+            try {
+                String tartalom = Files.readString(path);
+
+                // Sorokra bontás
+                String[] sorok = tartalom.split("\n");
+
+                // Feltöltjük a mezőket
+                if (sorok.length >= 3) {
+                    txtfSzaknev.setText(sorok[0].replace("Név: ", "").trim());
+                    cmbValasztottSzak.setSelectedItem(sorok[1].replace("Szak: ", "").trim());
+                    String hirlevel = sorok[2].replace("Hírlevélre feliratkozott: ", "").trim();
+                    chboxHirlevel.setSelected(hirlevel.equalsIgnoreCase("igen"));
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "A fájl tartalma nem megfelelő formátumú!", "Hiba", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Hiba a fájl olvasásakor:\n" + ex.getMessage(), "IO Hiba", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 
     private void kilepes_Megerosit() throws HeadlessException {
         int valasz = JOptionPane.showConfirmDialog(
@@ -242,7 +268,6 @@ public class Menuk extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox chboxHirlevel;
     private javax.swing.JComboBox<String> cmbValasztottSzak;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu3;
