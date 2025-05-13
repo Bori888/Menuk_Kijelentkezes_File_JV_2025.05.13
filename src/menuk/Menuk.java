@@ -5,8 +5,16 @@
 package menuk;
 
 import java.awt.HeadlessException;
+import java.io.File;
+import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -19,9 +27,7 @@ public class Menuk extends javax.swing.JFrame {
      */
     public Menuk() {
         initComponents();
-        
 
-        
     }
 
     /**
@@ -33,12 +39,20 @@ public class Menuk extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jComboBox1 = new javax.swing.JComboBox<>();
+        txtfSzaknev = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        cmbValasztottSzak = new javax.swing.JComboBox<>();
+        chboxHirlevel = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        mnuPngMentes = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        mnuPrgKilepes = new javax.swing.JMenuItem();
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Menuk és kilépes");
@@ -48,22 +62,40 @@ public class Menuk extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Név:");
+
+        jLabel2.setText("Szak:");
+
+        cmbValasztottSzak.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Választott szak--", "SZF", "IRU" }));
+
+        chboxHirlevel.setText("Hírlevel");
+        chboxHirlevel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chboxHirlevelActionPerformed(evt);
+            }
+        });
+
         jMenu3.setText("Menu");
 
-        jMenuItem2.setText("Mentés");
-        jMenu3.add(jMenuItem2);
+        mnuPngMentes.setText("Mentés");
+        mnuPngMentes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPngMentesActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mnuPngMentes);
 
         jMenuItem3.setText("Betölés");
         jMenu3.add(jMenuItem3);
         jMenu3.add(jSeparator2);
 
-        jMenuItem4.setText("Kilépés");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        mnuPrgKilepes.setText("Kilépés");
+        mnuPrgKilepes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                mnuPrgKilepesActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem4);
+        jMenu3.add(mnuPrgKilepes);
 
         jMenuBar1.add(jMenu3);
 
@@ -73,26 +105,91 @@ public class Menuk extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbValasztottSzak, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtfSzaknev)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(chboxHirlevel)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtfSzaknev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(cmbValasztottSzak, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chboxHirlevel)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void mnuPrgKilepesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrgKilepesActionPerformed
         kilepes_Megerosit();
-    
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    }//GEN-LAST:event_mnuPrgKilepesActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        System.out.println("Kilépés folyamatban... ");
-         kilepes_Megerosit();
+//        System.out.println("Kilépés folyamatban... ");
+        kilepes_Megerosit();
     }//GEN-LAST:event_formWindowClosing
+
+    private void mnuPngMentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPngMentesActionPerformed
+        //JFileChooser jfc =new JFileChooser();//dokumentumok
+        JFileChooser jfc = new JFileChooser(System.getProperty("user.dir")); // aktuális projekt mappa
+        int gomb = jfc.showSaveDialog(rootPane);
+        if (gomb == JFileChooser.APPROVE_OPTION) {
+            File kivalasztottFile = jfc.getSelectedFile();
+            Path path = Path.of(kivalasztottFile.getAbsolutePath());
+
+            try {
+                Files.writeString(path, tartalom());
+
+            } catch (IOException ex) {
+                String msg = "IO Hiba!\n " + ex.getMessage();
+                JOptionPane.showMessageDialog(rootPane, msg);
+
+            }
+        }
+
+
+    }//GEN-LAST:event_mnuPngMentesActionPerformed
+
+    private String tartalom() {
+        String nev = txtfSzaknev.getText().trim();//.trim() egy Java metódus, amely a szöveg (String) elejéről és végéről eltávolítja a szóközöket
+        String szak = (String) cmbValasztottSzak.getSelectedItem();
+        boolean hirlevel = chboxHirlevel.isSelected();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Név: ").append(nev).append("\n");
+        sb.append("Szak: ").append(szak).append("\n");
+        sb.append("Hírlevélre feliratkozott: ").append(hirlevel ? "Igen" : "Nem").append("\n");
+
+        return sb.toString();
+    }
+
+
+    private void chboxHirlevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chboxHirlevelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chboxHirlevelActionPerformed
 
     private void kilepes_Megerosit() throws HeadlessException {
         int valasz = JOptionPane.showConfirmDialog(
@@ -101,7 +198,7 @@ public class Menuk extends javax.swing.JFrame {
                 "Megerősítés",
                 JOptionPane.YES_NO_OPTION
         );
-        
+
         if (valasz == JOptionPane.YES_OPTION) {
             System.exit(0);//0 -->nem volt hiba
         }
@@ -143,11 +240,18 @@ public class Menuk extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox chboxHirlevel;
+    private javax.swing.JComboBox<String> cmbValasztottSzak;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JMenuItem mnuPngMentes;
+    private javax.swing.JMenuItem mnuPrgKilepes;
+    private javax.swing.JTextField txtfSzaknev;
     // End of variables declaration//GEN-END:variables
+
 }
